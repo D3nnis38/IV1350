@@ -2,7 +2,7 @@ package dbHandler;
 
 public class DBHandler {
 
-    public DBHandler() {
+    public DBHandler(InventorySystem inventorySystem) {
 
     }
 }
