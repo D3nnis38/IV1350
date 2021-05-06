@@ -1,5 +1,7 @@
 package model.DTO;
 
+import model.Product;
+
 /**
  * Respresents a Data Transfer Object of the class Product
  *
@@ -27,6 +29,14 @@ public class ProductDTO {
         this.itemDescription = itemDescription;
         this.VAT = VAT;
         this.soldQuantity = soldQuantity;
+    }
+
+    public ProductDTO(Product product) {
+        this.itemIdentifier = product.getItemIdentifier();
+        this.price = product.getPrice();
+        this.itemDescription = product.getItemDescription();
+        this.VAT = product.getVAT();
+        this.soldQuantity = product.getSoldQuantity();
     }
 
     /**
@@ -58,9 +68,20 @@ public class ProductDTO {
     }
 
     /**
-     * @return the qunatity sold
+     * @return the quantity sold
      */
     public int getSoldQuantity() {
         return soldQuantity;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductDTO{" +
+                "itemIdentifier='" + itemIdentifier + '\'' +
+                ", price=" + price +
+                ", itemDescription='" + itemDescription + '\'' +
+                ", VAT=" + VAT +
+                ", soldQuantity=" + soldQuantity +
+                '}';
     }
 }
