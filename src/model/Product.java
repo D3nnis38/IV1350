@@ -50,4 +50,14 @@ public class Product {
     public void setSoldQuantity(int soldQuantity) {
         this.soldQuantity = soldQuantity;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "price=" + price +
+                ", itemDescription='" + itemDescription + '\'' +
+                ", VAT=" + VAT +
+                ", soldQuantity=" + soldQuantity +
+                '}';
+    }
 }

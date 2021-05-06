@@ -16,11 +16,11 @@ public class InventorySystem {
      * Creates a new instance
      */
     public InventorySystem() {
-        this.inventory[0] = new ProductDTO("123456", 20, "Washer fluid", 25, 0);
-        this.inventory[1] = new ProductDTO("123457", 420, "Ipod Gen 1", 25, 0);
-        this.inventory[2] = new ProductDTO("123458", 90, "Selfie stick", 25, 0);
-        this.inventory[3] = new ProductDTO("123459", 1000, "Non dairy milk", 25, 0);
-        this.inventory[4] = new ProductDTO("123460", 20, "Regular milk", 25, 0);
+        this.inventory[0] = new ProductDTO("123456", 20, "Washer fluid", 0.25F, 0);
+        this.inventory[1] = new ProductDTO("123457", 420, "Ipod Gen 1", 0.25F, 0);
+        this.inventory[2] = new ProductDTO("123458", 90, "Selfie stick", 0.25F, 0);
+        this.inventory[3] = new ProductDTO("123459", 1000, "Non dairy milk", 0.25F, 0);
+        this.inventory[4] = new ProductDTO("123460", 20, "Regular milk", 0.25F, 0);
 
     }
 

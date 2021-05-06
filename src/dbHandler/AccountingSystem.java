@@ -1,5 +1,6 @@
 package dbHandler;
 
+import model.DTO.SaleDTO;
 import model.Sale;
 
 /**
@@ -26,4 +27,7 @@ public class AccountingSystem {
 
     }
 
+    public void logSaleInformation(SaleDTO saleDTO) {
+        System.out.println("Logging sale-information in accounting-system...");
+    }
 }

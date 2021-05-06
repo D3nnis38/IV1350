@@ -2,6 +2,7 @@ package controller;
 
 import dbHandler.DBHandler;
 import model.DTO.ProductDTO;
+import model.DTO.SaleDTO;
 import model.Sale;
 
 /**
@@ -29,11 +30,37 @@ public class Controller {
         sale = new Sale();
     }
 
-    public void enterItem(String itemIdentifier, int quantity) {
+    /**
+     * Registers the item to the sale
+     *
+     * @param itemIdentifier is the unique item-ID the cashier enters
+     * @param quantity       is the amount for the entered item
+     */
+    public String enterItem(String itemIdentifier, int quantity) {
         ProductDTO product = dbHandler.getProduct(itemIdentifier);
         System.out.println("Managed to fetch: \n" + product + "\n");
-        this.sale.registerSoldProduct(product, quantity);
+        return sale.registerSoldProduct(product, quantity);
 
     }
 
+    /**
+     * Retrives the roral running amount in sale including VAT
+     *
+     * @return total amount including VAT
+     */
+    public double getTotal() {
+        return sale.getTotal();
+    }
+
+    /**
+     * Ends the whole sale and prints receipt
+     *
+     * @param amountPaid is the amount customer pays
+     */
+    public void endSale(double amountPaid) {
+        sale.setAmountPaid(amountPaid);
+        SaleDTO saleDTO = new SaleDTO(sale);
+        dbHandler.logCompletedSale(saleDTO);
+        dbHandler.printReceipt(saleDTO);
+    }
 }
