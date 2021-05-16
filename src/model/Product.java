@@ -9,15 +9,6 @@ public class Product {
     private final float VAT;
     private int soldQuantity;
 
-
-    public Product(String itemIdentifier, double price, String itemDescription, float vat, int soldQuantity) {
-        this.itemIdentifier = itemIdentifier;
-        this.price = price;
-        this.itemDescription = itemDescription;
-        VAT = vat;
-        this.soldQuantity = soldQuantity;
-    }
-
     public Product(ProductDTO product, int soldQuantity) {
         this.itemIdentifier = product.getItemIdentifier();
         this.price = product.getPrice();
