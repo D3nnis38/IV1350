@@ -30,11 +30,14 @@ public class InventorySystem {
      * @param itemIdentifier is the unique number every prouct has
      * @return the productDTO with the corresponding itemIdentifier
      */
-    public ProductDTO getProduct(String itemIdentifier) {
-        for (ProductDTO productDTO : inventory) {
-            if (productDTO.getItemIdentifier().equals(itemIdentifier))
-                return productDTO;
+    public ProductDTO getProduct(String itemIdentifier) throws InvalidIdentifierException {
+        if (!itemIdentifier.equals("")) {
+            for (ProductDTO productDTO : inventory) {
+                if (productDTO.getItemIdentifier().equals(itemIdentifier))
+                    return productDTO;
+            }
+            throw new InvalidIdentifierException("No item with identifier: " + itemIdentifier + " in inventory could be found");
         }
-        return null;
+        throw new ConnectivityException("Could not reach the database");
     }
 }

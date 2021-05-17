@@ -1,6 +1,8 @@
 package view;
 
 import controller.Controller;
+import controller.OperationException;
+import dbHandler.InvalidIdentifierException;
 
 /**
  * This is a placeholder for the real view. It contains a hardcoded execution with calls to all
@@ -10,6 +12,8 @@ import controller.Controller;
  */
 public class View {
     private final Controller contr;
+    private final ErrorMessageHandler errorMsgHandler = ErrorMessageHandler.getErrorMessage();
+
 
     /**
      * Creates a new instance, that uses the specified controller for all calls to other layers
@@ -23,10 +27,26 @@ public class View {
     /**
      * Performs a fake sale, by calling all system operations in the controller
      */
-    public void runFakeExecution() {
+    public void runFakeExecution() throws InvalidIdentifierException, OperationException {
         startSale();
-        enterItem();
+//        enterItem();
+        enterItemException();
         endSale();
+    }
+
+    private void enterItemException() throws OperationException {
+        try {
+            System.out.println("Entering itemID: 123456, quantity: 1.");
+            System.out.println(contr.enterItem("123456", 1));
+
+            System.out.println("Entering itemID: 123457, quantity: 3.");
+            System.out.println(contr.enterItem("123457", 3));
+
+            System.out.println("Entering itemID: 1234600, quantity: 5.");
+            System.out.println(contr.enterItem("", 5));
+        } catch (InvalidIdentifierException exception) {
+            errorMsgHandler.displayErrorMessage(exception.getMessage());
+        }
     }
 
     private void startSale() {
@@ -34,7 +54,7 @@ public class View {
         System.out.println("A new sale has been started.");
     }
 
-    private void enterItem() {
+    private void enterItem() throws InvalidIdentifierException, OperationException {
         System.out.println("Entering itemID: 123456, quantity: 1.");
         System.out.println(contr.enterItem("123456", 1));
 

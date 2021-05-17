@@ -31,7 +31,7 @@ public class DBHandler {
      * @param itemIdentifier uniqe item-ID
      * @return ProductDTO from the Inventory System with the corresponding itemIdentifier
      */
-    public ProductDTO getProduct(String itemIdentifier) {
+    public ProductDTO getProduct(String itemIdentifier) throws InvalidIdentifierException {
         System.out.println("Fetching product from the InventorySystem... \n");
         return inventorySystem.getProduct(itemIdentifier);
     }

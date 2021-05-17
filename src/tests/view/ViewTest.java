@@ -2,7 +2,9 @@ package tests.view;
 
 
 import controller.Controller;
+import controller.OperationException;
 import dbHandler.DBHandler;
+import dbHandler.InvalidIdentifierException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,7 +42,7 @@ public class ViewTest {
     }
 
     @Test
-    public void testRunFakeExecution() {
+    public void testRunFakeExecution() throws InvalidIdentifierException, OperationException {
         instanceToTest.runFakeExecution();
         String printout = printoutBuffer.toString();
         assertTrue(printout.contains("started"), "UI did not start correctly.");

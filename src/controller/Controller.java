@@ -1,6 +1,7 @@
 package controller;
 
 import dbHandler.DBHandler;
+import dbHandler.InvalidIdentifierException;
 import model.DTO.ProductDTO;
 import model.DTO.SaleDTO;
 import model.Sale;
@@ -36,7 +37,7 @@ public class Controller {
      * @param itemIdentifier is the unique item-ID the cashier enters
      * @param quantity       is the amount for the entered item
      */
-    public String enterItem(String itemIdentifier, int quantity) {
+    public String enterItem(String itemIdentifier, int quantity) throws InvalidIdentifierException, OperationException {
         ProductDTO product = dbHandler.getProduct(itemIdentifier);
         System.out.println("Managed to fetch: \n" + product + "\n");
         return sale.registerSoldProduct(product, quantity);
