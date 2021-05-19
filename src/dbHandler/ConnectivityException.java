@@ -2,6 +2,8 @@ package dbHandler;
 
 /**
  * Throws if host can't connect to databse (Hardcoded to throw if itemidentifier is empty === "")
+ *
+ * @author dennishadzialic
  */
 public class ConnectivityException extends RuntimeException {
 

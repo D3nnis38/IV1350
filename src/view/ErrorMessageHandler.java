@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 /**
  * Displays error-messages to the User
+ *
+ * @author dennishadzialic
  */
 public class ErrorMessageHandler {
     private static final ErrorMessageHandler ERROR_MESSAGE = new ErrorMessageHandler();

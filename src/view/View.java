@@ -3,6 +3,7 @@ package view;
 import controller.Controller;
 import controller.OperationException;
 import dbHandler.InvalidIdentifierException;
+import util.ConsoleLogger;
 
 /**
  * This is a placeholder for the real view. It contains a hardcoded execution with calls to all
@@ -13,6 +14,7 @@ import dbHandler.InvalidIdentifierException;
 public class View {
     private final Controller contr;
     private final ErrorMessageHandler errorMsgHandler = ErrorMessageHandler.getErrorMessage();
+    private final ConsoleLogger consoleLogger = ConsoleLogger.getConsoleLogger();
 
 
     /**
@@ -43,7 +45,7 @@ public class View {
             System.out.println(contr.enterItem("123457", 3));
 
             System.out.println("Entering itemID: 1234600, quantity: 5.");
-            System.out.println(contr.enterItem("", 5));
+            System.out.println(contr.enterItem("1234600", 5));
         } catch (InvalidIdentifierException exception) {
             errorMsgHandler.displayErrorMessage(exception.getMessage());
         }
@@ -67,10 +69,15 @@ public class View {
 
     private void endSale() {
         System.out.println("Cashier ends sale.");
-        double totalAmount = contr.getTotal();
-        System.out.println("Total is: " + totalAmount + " SEK.");
-        System.out.println("Customer pays: 1800.0 SEK");
-        contr.endSale(1800);
+        try {
+            double totalAmount = contr.getTotal();
+            System.out.println("Total is: " + totalAmount + " SEK.");
+            System.out.println("Customer pays: 1800.0 SEK");
+            contr.endSale(1800);
+        } catch (IllegalStateException exception) {
+            errorMsgHandler.displayErrorMessage("Sale have not started yet");
+        }
+
     }
 
 }

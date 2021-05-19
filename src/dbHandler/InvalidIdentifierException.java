@@ -1,5 +1,10 @@
 package dbHandler;
 
+/**
+ * An exception when there isn't a match when seartch for an item
+ *
+ * @author dennishadzialic
+ */
 public class InvalidIdentifierException extends Exception {
     /**
      * Creates an instance of <code>InvalidItemException</code> with a given message.
