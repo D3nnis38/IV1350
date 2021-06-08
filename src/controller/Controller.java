@@ -1,10 +1,15 @@
 package controller;
 
+import dbHandler.ConnectivityException;
 import dbHandler.DBHandler;
 import dbHandler.InvalidIdentifierException;
 import model.DTO.ProductDTO;
 import model.DTO.SaleDTO;
 import model.Sale;
+import model.SaleObserver;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Representing a controller. Routes logic through the application.
@@ -14,6 +19,7 @@ import model.Sale;
 public class Controller {
     private final DBHandler dbHandler;
     private Sale sale;
+    private final List<SaleObserver> saleObserver = new ArrayList<>();
 
     /**
      * Creates a new instance
@@ -37,19 +43,19 @@ public class Controller {
      * @param itemIdentifier is the unique item-ID the cashier enters
      * @param quantity       is the amount for the entered item
      */
-    public String enterItem(String itemIdentifier, int quantity) throws InvalidIdentifierException, OperationException {
+    public String enterItem(String itemIdentifier, int quantity) throws InvalidIdentifierException, ConnectivityException, OperationException {
         ProductDTO product = dbHandler.getProduct(itemIdentifier);
-        System.out.println("Managed to fetch: \n" + product + "\n");
         return sale.registerSoldProduct(product, quantity);
 
     }
 
     /**
-     * Retrives the roral running amount in sale including VAT
+     * Retrives the toral running amount in sale including VAT
      *
      * @return total amount including VAT
      */
     public double getTotal() {
+        sale.addSaleObservers(saleObserver);
         return sale.getTotal();
     }
 
@@ -63,5 +69,14 @@ public class Controller {
         SaleDTO saleDTO = new SaleDTO(sale);
         dbHandler.logCompletedSale(saleDTO);
         dbHandler.printReceipt(saleDTO);
+    }
+
+    /**
+     * Adds an observer to the observer-list
+     *
+     * @param observer is the observer to be added in the observer-list
+     */
+    public void addSaleObserver(SaleObserver observer) {
+        saleObserver.add(observer);
     }
 }

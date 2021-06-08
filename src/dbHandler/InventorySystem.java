@@ -9,6 +9,7 @@ import model.DTO.ProductDTO;
  */
 public class InventorySystem {
 
+
     //represents whole inventory
     private final ProductDTO[] inventory = new ProductDTO[5];
 
@@ -30,7 +31,7 @@ public class InventorySystem {
      * @param itemIdentifier is the unique number every prouct has
      * @return the productDTO with the corresponding itemIdentifier
      */
-    public ProductDTO getProduct(String itemIdentifier) throws InvalidIdentifierException {
+    public ProductDTO getProduct(String itemIdentifier) throws InvalidIdentifierException, ConnectivityException {
         if (!itemIdentifier.equals("")) {
             for (ProductDTO productDTO : inventory) {
                 if (productDTO.getItemIdentifier().equals(itemIdentifier))
@@ -39,5 +40,14 @@ public class InventorySystem {
             throw new InvalidIdentifierException("No item with identifier: " + itemIdentifier + " in inventory could be found");
         }
         throw new ConnectivityException("Could not reach the database");
+    }
+
+    /**
+     * Returns the whole inventory
+     *
+     * @return whole inventory
+     */
+    public ProductDTO[] getInventory() {
+        return inventory;
     }
 }

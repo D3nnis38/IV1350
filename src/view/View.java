@@ -2,8 +2,11 @@ package view;
 
 import controller.Controller;
 import controller.OperationException;
+import dbHandler.ConnectivityException;
 import dbHandler.InvalidIdentifierException;
 import util.ConsoleLogger;
+import util.FileLogger;
+import util.TotalRevenueFileOutput;
 
 /**
  * This is a placeholder for the real view. It contains a hardcoded execution with calls to all
@@ -14,6 +17,7 @@ import util.ConsoleLogger;
 public class View {
     private final Controller contr;
     private final ErrorMessageHandler errorMsgHandler = ErrorMessageHandler.getErrorMessage();
+    private final FileLogger fileLogger = new FileLogger("sale_log.txt");
     private final ConsoleLogger consoleLogger = ConsoleLogger.getConsoleLogger();
 
 
@@ -23,7 +27,10 @@ public class View {
      * @param contr The controller to use for all calls to other layers
      */
     public View(Controller contr) {
+
         this.contr = contr;
+        contr.addSaleObserver(new TotalRevenueView());
+        contr.addSaleObserver(new TotalRevenueFileOutput());
     }
 
     /**
@@ -36,7 +43,7 @@ public class View {
         endSale();
     }
 
-    private void enterItemException() throws OperationException {
+    private void enterItemException() {
         try {
             System.out.println("Entering itemID: 123456, quantity: 1.");
             System.out.println(contr.enterItem("123456", 1));
@@ -45,9 +52,10 @@ public class View {
             System.out.println(contr.enterItem("123457", 3));
 
             System.out.println("Entering itemID: 1234600, quantity: 5.");
-            System.out.println(contr.enterItem("1234600", 5));
-        } catch (InvalidIdentifierException exception) {
+            System.out.println(contr.enterItem("123460", 5));
+        } catch (Exception exception) {
             errorMsgHandler.displayErrorMessage(exception.getMessage());
+            fileLogger.log(exception);
         }
     }
 
@@ -56,7 +64,7 @@ public class View {
         System.out.println("A new sale has been started.");
     }
 
-    private void enterItem() throws InvalidIdentifierException, OperationException {
+    private void enterItem() throws InvalidIdentifierException, ConnectivityException, OperationException {
         System.out.println("Entering itemID: 123456, quantity: 1.");
         System.out.println(contr.enterItem("123456", 1));
 

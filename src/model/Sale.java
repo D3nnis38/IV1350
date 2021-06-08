@@ -4,6 +4,7 @@ import model.DTO.ProductDTO;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents the whole Sale (Sales Log)
@@ -17,6 +18,7 @@ public class Sale {
     private double runningTotal = 0;
     private double amountPaid = 0;
     private float VAT = 0;
+    private final List<SaleObserver> saleObserver = new ArrayList<>();
 
     /**
      * Creates a new instance and saves the time of the sale
@@ -33,7 +35,7 @@ public class Sale {
      * @param quantity is the quantity sold of the product
      */
     public String registerSoldProduct(ProductDTO product, int quantity) {
-        System.out.println("Adding new product to Sales Log: \n" + product + "\n");
+//        System.out.println("Adding new product to Sales Log: \n" + product + "\n");
         if (productExists(product))
             incrementQuantity(product, quantity);
         else
@@ -109,12 +111,23 @@ public class Sale {
         return getAmountPaid() - getTotal();
     }
 
-
-    public String displayUpdate(ProductDTO product) {
+    /**
+     * Returns a Description of product and running total
+     *
+     * @param product is the productDTO
+     * @return info for product and running total
+     */
+    private String displayUpdate(ProductDTO product) {
         return "Description: " + product.getItemDescription() + "\nPrice: " + product.getPrice() + " SEK\n" + "Running total: " + runningTotal + " SEK\n";
 
     }
 
+    /**
+     * Checks if the product exists in current sale
+     *
+     * @param product is the product
+     * @return if a product already exists in the sale
+     */
     private boolean productExists(ProductDTO product) {
         for (Product value : productList) {
             if (value.getItemIdentifier().equals(product.getItemIdentifier()))
@@ -123,10 +136,35 @@ public class Sale {
         return false;
     }
 
+    /**
+     * Adds a product to the sale
+     *
+     * @param product  the product to be added
+     * @param quantity amount added
+     */
     private void incrementQuantity(ProductDTO product, int quantity) {
         for (Product value : productList) {
             if (value.getItemIdentifier().equals(product.getItemIdentifier()))
                 value.setSoldQuantity(value.getSoldQuantity() + quantity);
+        }
+    }
+
+    /**
+     * Adds observers and notifies them
+     *
+     * @param saleObservers is the observers to be added
+     */
+    public void addSaleObservers(List<SaleObserver> saleObservers) {
+        saleObserver.addAll(saleObservers);
+        notifyAllObservers();
+    }
+
+    /**
+     * Adds revenue to all observers
+     */
+    private void notifyAllObservers() {
+        for (SaleObserver obs : saleObserver) {
+            obs.newRevenue(getRunningTotal());
         }
     }
 }
